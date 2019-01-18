@@ -2,6 +2,9 @@ import turtle as tu
 import random 
 from collections import deque
 import math
+import io
+import os
+from PIL import Image
 
 def get_turtle_state(turtle):
     """ Return turtle's current heading and position. """
@@ -66,7 +69,7 @@ def calcucalte_side_len(sides_number, diameter):
         l = diameter*math.sin(math.pi/sides_number)
         return l
 
-def draw_tresso_fractal_polygon(sides, height = 400, iterations = 5, tresso = True):
+def draw_tresso_fractal_polygon(sides, height = 800, iterations = 7, tresso = True):
         """draw a fractal as polygon that repeats itself inside """
         #calculate side len and angle
         side_len = calcucalte_side_len(sides, height)
@@ -76,13 +79,17 @@ def draw_tresso_fractal_polygon(sides, height = 400, iterations = 5, tresso = Tr
         else:
                 next_len_formula = lambda side_len, sides : side_len/2
         #save first point to start
+        turtle.penup()
+        turtle.setposition(-350,-350 )
         stack.append(get_turtle_state(turtle))
+        turtle.pendown()
         for i in range(iterations):
                 #progressively change color and pensize
-                turtle.color("#00{:02x}ff".format(int(255*i/iterations)))
+                pick_color(turtle, i, iterations)
                 turtle.pensize(int(10*(1-i/iterations)))
                 turtle.screen.tracer(0, 0)
                 for j in range(sides**i):
+                        #pick_color(turtle, j, iterations)
                         #move pen to next point and draw single polygon
                         turtle.penup()
                         restore_turtle_state(turtle, stack.popleft())
@@ -105,12 +112,27 @@ def draw_fractal_tree(branches):
         stack.append(get_turtle_state(turtle))
         draw_breadth_first(iterations = 10,branches= branches, alpha = 60)
 
+def pick_color(turtle, i, iterations):
+        rainbow = ["#9400D3", "#4B0082", "#0000FF", "#00FF00", "#FFFF00", "#FF7F00", "#FF0000"]
+        #next_color = rainbow[i%iterations]
+        next_color = "#00{:02x}ff".format(int(255*i/iterations))
+        turtle.color(next_color)
+        return next_color
+
+def save(file_name):
+        ts = turtle.getscreen()
+        ts.screensize(1200, 1200)
+        ts.setup(width=1.0, height=1.0, startx=None, starty=None)
+        ts.getcanvas().postscript(file="{}.ps".format(file_name))
+        os.system("convert -density 1000 {}.ps {}.png".format(file_name, file_name))
+
 #init turtle and stack golabal variable
 turtle = tu.Turtle()
 stack = deque()
 #draw 
-draw_tresso_fractal_polygon(sides=5)
+
+draw_tresso_fractal_polygon(sides=5, iterations= 5)
 #save result
-ts = turtle.getscreen()
-ts.getcanvas().postscript(file="post_script_result.ps")
+save("fractal")
+
 input("Press Enter to continue...")
