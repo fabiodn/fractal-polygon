@@ -20,6 +20,7 @@ class FractalPolygon:
                         next_len_formula = self.tresso_formula
                 else:
                         next_len_formula = lambda side_len, sides : side_len/2
+                change_side_color = False
                 if change_color_level == "side":
                         change_side_color = True
                 # set and save first point to start
@@ -251,8 +252,8 @@ class FractalPolygon:
 
 #example
 fractalPolygon = FractalPolygon()
-fractalPolygon.main_draw_fractal_polygon(5, 
+fractalPolygon.main_draw_fractal_polygon(sides=5, 
         iterations=5,  
         draw_side_method="inner_semi_circle",
-        change_color_level="side", 
-        color_palette="rainbow")
+        change_color_level="polygon", 
+        color_palette="olympic")
