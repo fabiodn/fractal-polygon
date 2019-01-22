@@ -151,7 +151,7 @@ class FractalPolygon:
                 b = 360/n * int((n-1)/4)
                 b = math.radians(b)
                 d = math.pi/n + b/2 
-                l = l/2 * (1+ (math.sin(b/2)*math.cos(d)) / (math.tan(math.pi/n)*math.cos(math.pi/n)))**-1
+                l = l/2 * (1+ (math.sin(b/2)*math.cos(d)) / (math.sin(math.pi/n)))**-1
                 return l
 
         def calcucalte_side_len(self,sides_number, diameter):
