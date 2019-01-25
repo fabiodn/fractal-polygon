@@ -10,9 +10,15 @@ class FractalPolygon:
                 self.turtle = tu.Turtle()
                 self.turtle.color("#FFFFFF")
                 self.stack = deque()
+                self.initiale_state = self.get_turtle_state(self.turtle)
 
         def draw_tresso_fractal_polygon(self, sides, height = 700, iterations = 5, tresso = True,  draw_side_method = None, change_color_level = "polygon" , color_palette = "rainbow"):
                 """draw a fractal as polygon that repeats itself inside """
+                #reset turtle and stack
+                self.turtle.penup()
+                self.restore_turtle_state(self.turtle, self.initiale_state)
+                self.stack.clear()
+                self.turtle.pendown()
                 #calculate side len and angle to fit the heught of the window
                 side_len = self.calcucalte_side_len(sides, height)
                 #set next iteration side len formula
@@ -165,6 +171,7 @@ class FractalPolygon:
                         olympic = ["#0085C7", "#F4C300", "#000000", "#009F3D", "#DF0024"]
                         pastel = ["#ffb3ba","#ffdfba","#ffffba","#baffc9","#bae1ff"]
                         balance = ["#17191b","#519fa5","#f29e92","#9f2112","#371608"]
+                        black = ["#000000"]
 
                         if color_palette_name == "rainbow":
                                 colors = rainbow
@@ -174,6 +181,8 @@ class FractalPolygon:
                                 colors = pastel
                         if color_palette_name == "balance":
                                 colors = balance
+                        if color_palette_name == "black":
+                                colors = black
 
                         next_color = colors[(index)%len(colors)]
                         return next_color
@@ -242,7 +251,7 @@ class FractalPolygon:
                 fractal = FractalPolygon()
                 fractal.draw_tresso_fractal_polygon(sides =sides,
                         height=height,
-                        iterations=iterations,
+                        iterations=2,
                         draw_side_method=draw_side ,
                         change_color_level=change_color_level,
                         color_palette=color_palette)
@@ -253,7 +262,7 @@ class FractalPolygon:
 #example
 fractalPolygon = FractalPolygon()
 fractalPolygon.main_draw_fractal_polygon(sides=5, 
-        iterations=5,  
-        draw_side_method="inner_semi_circle",
+        iterations=4,  
+        draw_side_method="line",
         change_color_level="polygon", 
-        color_palette="olympic")
+        color_palette="black")
